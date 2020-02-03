@@ -1,0 +1,54 @@
+.GroceryList{
+	display: grid;
+	grid-template-rows: 25vh 75vh;
+	
+}
+li{
+	list-style: none;
+	padding-top: 5px;
+	padding-bottom:5px;
+}
+.listControl {
+	justify-self: center;
+	overflow: auto;
+}
+.listProduct {
+	    display: grid;
+    grid-template-columns: 30px 270px 100px;
+}
+.userBox {
+	position: absolute;
+	top:10px;
+	right:10px;
+}
+.found {
+	background-color: grey;
+}
+#delete-button{
+	background: none;
+	border: none;
+	outline: none;
+	color: red;
+}
+#save-button{
+	background: none;
+	border: none;
+	outline: none;
+	color: green;
+}
+#quantityValue {
+	width:25%;
+}
+input.update{
+	border:0px;
+}
+input.update:hover{
+	border: 1px solid;
+	border-radius:10px;
+	text-indent: 10px;
+}
+input.update:focus{
+	outline:none;
+	border:1px solid;
+	border-radius: 10px;
+}
