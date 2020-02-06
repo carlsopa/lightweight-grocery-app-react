@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './components/top/header'
 import List from './components/list'
-import {GroceryDataProvider} from './context/test/DataContext'
+import {GroceryDataProvider} from './context/DataContext'
 
 function App() {
 	return(
