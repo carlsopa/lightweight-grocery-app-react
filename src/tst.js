@@ -1,7 +1,6 @@
 import React from 'react'
-//import People from './components/test/people'
-import Header from './components/test/grocery/top/header'
-import List from './components/test/grocery/list'
+import Header from './components/top/header'
+import List from './components/list'
 import {GroceryDataProvider} from './context/test/DataContext'
 
 function App() {
