@@ -48,6 +48,7 @@ const ListAdd = () => {
 	const [quantity, setQuantity] = useState('');
 	const [category, setCategory] = useState('');
 	const [type, setType] = useState('');
+	
 
 	let measureCategory = ['Each', 'Lb', 'Oz', 'Fl Oz']
 	let dataCategory = ['Other','Beverages', 'Bakery', 'Canned Goods', 'Dairy', 'Baking Goods', 'Frozen Foods', 'Meat', 'Produce', 'Snacks'];

@@ -18,12 +18,16 @@ export const GroceryDataProvider =(props)=>{
 
 	useEffect(()=>{
 		const fetch = async()=>{
-			let db = firebase.database().ref('grocery');
+			let db = firebase.database().ref('groceryA');
 			db.on('value',snapshot=>{
-				snapshot.val()!=null?(
-					snapshot.val().map(gl=>gl.listId>listId?(
-						setLId(gl.listId),
-						setGroceryList(snapshot.val())):null)):(console.log('null'));
+				console.log(snapshot.val())
+				snapshot.val()!==0?(
+					//console.log('here')
+					snapshot.forEach(gl=>console.log(gl.val().listId)))
+					// snapshot.val().map(gl=>gl.listId>listId?(
+					// 	setLId(gl.listId),
+					// 	setGroceryList(snapshot.val())):null))
+				:(console.log('null'));
 			})
 			db = firebase.database().ref('users/');
 			db.on('value',snapshot=>{
@@ -103,11 +107,13 @@ export const GroceryDataProvider =(props)=>{
 	const WriteList = (x) => {
 		console.log(x);
 		console.log(userId);
-		let db = firebase.database().ref('grocery');
-		const list = {items:[],title:x,userId:userId};
+		let db = firebase.database().ref('groceryA');
+		let key = db.push().key;
+		console.log(key)
+		const list = {items:[],title:x,listId:key,userId:userId};
 		(userId!='')?
 			(x!='')?
-				db.push(list):
+				firebase.database().ref('groceryA/'+key).update(list):
 				console.log('enter a list')
 			:console.log('choose a person')
 	}
