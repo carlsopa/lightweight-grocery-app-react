@@ -18,16 +18,11 @@ export const GroceryDataProvider =(props)=>{
 
 	useEffect(()=>{
 		const fetch = async()=>{
-			let db = firebase.database().ref('groceryA');
+			let db = firebase.database().ref('groceryA/');
 			db.on('value',snapshot=>{
-				console.log(snapshot.val())
-				snapshot.val()!==0?(
-					//console.log('here')
-					snapshot.forEach(gl=>console.log(gl.val().listId)))
-					// snapshot.val().map(gl=>gl.listId>listId?(
-					// 	setLId(gl.listId),
-					// 	setGroceryList(snapshot.val())):null))
-				:(console.log('null'));
+				snapshot.forEach(child=>{
+					setGroceryList(list=>[...list,child.val()])
+				})
 			})
 			db = firebase.database().ref('users/');
 			db.on('value',snapshot=>{
@@ -48,7 +43,7 @@ export const GroceryDataProvider =(props)=>{
 	}
 	const GetUserList=()=>{
 		setUserGroceryList([]);
-		groceryList.forEach(gl=>gl.userId===parseInt(userId)?setUserGroceryList(list=>[...list,gl]):null)	 	 
+				groceryList.forEach(gl=>parseInt(gl.userId)===parseInt(userId)?setUserGroceryList(list=>[...list,gl]):(null))	 	 
 	}
 	const ChangeList=(x)=>{
 		setListId(x);
@@ -77,11 +72,11 @@ export const GroceryDataProvider =(props)=>{
 		userGroceryList.forEach(ul=>ul.listId===parseInt(listId)?
 			(list=ul,
 			ul.items=userItemList):null);
-		const groceryIndex = groceryList.findIndex(g=>{
-			return g.listId === parseInt(listId);
-		})
-		let db = firebase.database().ref('grocery/'+groceryIndex);
-		(groceryIndex!=-1)?db.set(list):console.log('not found')	
+		// const groceryIndex = groceryList.findIndex(g=>{
+		// 	return g.listId === parseInt(listId);
+		// })
+		// let db = firebase.database().ref('grocery/'+groceryIndex);
+		// (groceryIndex!=-1)?db.set(list):console.log('not found')	
 	}
 	const WriteItem = (p,c,q,t) => {
 		console.log(lId);
@@ -119,7 +114,7 @@ export const GroceryDataProvider =(props)=>{
 	}
 
 	return( 
-		<DataContext.Provider value={{groceryList,userList,userGroceryList,userItemList,listId,userId,userTypeList,
+		<DataContext.Provider value={{groceryList,userList,userGroceryList,userItemList,listId,userId,userTypeList,lId,
 			setGroceryList,setUserList,setListId,setUserId,setUserTypeList,
 			ChangeUser,GetUserList,ChangeList,GetItemList,Updater,WriteData,WriteItem,WriteList}}>
 			{props.children}
