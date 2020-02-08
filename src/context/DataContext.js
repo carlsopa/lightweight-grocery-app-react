@@ -38,7 +38,7 @@ export const GroceryDataProvider =(props)=>{
 
 	const ChangeUser=(x)=>{
 		setUserId(x);
-		WriteData();
+		//WriteData();
 		setListId('');
 	}
 	const GetUserList=()=>{
@@ -47,7 +47,7 @@ export const GroceryDataProvider =(props)=>{
 	}
 	const ChangeList=(x)=>{
 		setListId(x);
-		WriteData();
+		//WriteData();
 	}
 	const GetItemList=()=>{
 		setUserItemList([])
@@ -72,6 +72,10 @@ export const GroceryDataProvider =(props)=>{
 		userGroceryList.forEach(ul=>ul.listId===parseInt(listId)?
 			(list=ul,
 			ul.items=userItemList):null);
+		let db = firebase.database().ref('groceryA/'+listId+'/items');
+		//console.log(db);
+		console.log(userItemList);
+		//db.push(list);
 		// const groceryIndex = groceryList.findIndex(g=>{
 		// 	return g.listId === parseInt(listId);
 		// })
@@ -85,11 +89,15 @@ export const GroceryDataProvider =(props)=>{
 		console.log(q);
 		console.log(t);
 		console.log(listId);
-		let item = {cart:false,category:c,listItemId:32,product:p,quantity:q,unit:t}
+		let db = firebase.database().ref('groceryA/'+listId+'/items/');
+		let key = db.push().key;
+		let item = {cart:false,category:c,listItemId:key,product:p,quantity:q,unit:t}
 		console.log(item)
 		console.log(userItemList);
 		setUserItemList(userItemList.concat(item))
-		WriteData();
+		let entry = db+key;
+		firebase.database().ref('groceryA/'+listId+'/items/'+key).update(item);
+		//WriteData();
 		// const index = groceryList.findIndex(g=>{
 		// 	return g.listId === parseInt(listId);
 		// })
