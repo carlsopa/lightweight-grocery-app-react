@@ -7,13 +7,15 @@ const List = () =>{
 	const {userItemList} = useContext(DataContext);
 	const {GetItemList} = useContext(DataContext);
 	const {Updater} = useContext(DataContext);
+	const {GetList} = useContext(DataContext);
 
 	const [items, SetItems] = useState([]);
 
 	useEffect(()=>{
-		GetItemList();
+		GetList();
 	},[listId])
 	useEffect(()=>{
+		SetItems([]);
 		SetItems(userItemList)
 	},[userItemList])
 
