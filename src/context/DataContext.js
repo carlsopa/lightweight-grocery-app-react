@@ -49,7 +49,6 @@ export const GroceryDataProvider =(props)=>{
 	}
 	const GetItemList=()=>{
 		setUserItemList([])
-		console.log('groceryList');
 		userGroceryList.forEach(ul=>{
 			if(ul.listId===listId){
 				if(ul.items!==undefined) {
@@ -60,17 +59,12 @@ export const GroceryDataProvider =(props)=>{
 				console.log(null)
 			}
 		})
-
 	}
 	
 	const Updater=(pr,qu,ut,index)=>{
-		console.log('update')
 		const itemIndex = userItemList.findIndex(u=>{
 			return u.listItemId === index})
-		console.log(itemIndex);
-		console.log(pr)
 		const item = {...userItemList[itemIndex]}
-		console.log(item);
 		const items = [...userItemList]
 		item.product = pr;
 		item.quantity = qu;
@@ -93,13 +87,9 @@ export const GroceryDataProvider =(props)=>{
 		let key = db.push().key;
 		let item = {cart:false,category:c,listItemId:key,product:p,quantity:q,unit:t}
 		setUserItemList(list=>[...list,item])
-		let entry = db+key;
-		console.log(item)
 		firebase.database().ref('groceryA/'+listId+'/items/'+key).update(item);
 	}
 	const WriteList = (x) => {
-		console.log(x);
-		console.log(userId);
 		let db = firebase.database().ref('groceryA');
 		let key = db.push().key;
 		console.log(key)
