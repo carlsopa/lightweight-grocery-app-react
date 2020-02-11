@@ -20,10 +20,8 @@ const ListSelect = () => {
 	const {userGroceryList} = useContext(DataContext);
 	const {userId} = useContext(DataContext);
 	const {ChangeList} = useContext(DataContext);
-	const {WriteData} = useContext(DataContext);
 	useEffect(()=>{
 		GetUserList();
-		//console.log(userId);
 	},[userId])
 
 	return (
@@ -42,13 +40,12 @@ const ListAdd = () => {
 	const {userId} = useContext(DataContext);
 	const {userTypeList} = useContext(DataContext);
 	const [item, setItem] = useState('');
-	const [list, setList] = useState('');
 
 	const [product, setProduct] = useState('');
 	const [quantity, setQuantity] = useState('');
 	const [category, setCategory] = useState('');
 	const [type, setType] = useState('');
-	
+
 
 	let measureCategory = ['Each', 'Lb', 'Oz', 'Fl Oz']
 	let dataCategory = ['Other','Beverages', 'Bakery', 'Canned Goods', 'Dairy', 'Baking Goods', 'Frozen Foods', 'Meat', 'Produce', 'Snacks'];

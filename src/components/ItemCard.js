@@ -23,8 +23,9 @@ const Card=(props)=>{
 			</div>
 			<div>
 				<button id='save-button' type='button' 
-				onClick={(e)=>{props.change(props.item,props.units,props.value)}}>&#10003; save</button>
-				<button id='delete-button' type='button'>&#10007; delete</button>
+				onClick={(e)=>{props.change(props.item,props.units,props.unitType,props.value)}}>&#10003; save</button>
+				<button id='delete-button' type='button'
+				onClick={(e)=>{props.delete(props.value)}}>&#10007; delete</button>
 			</div>
 		</li>
 	)

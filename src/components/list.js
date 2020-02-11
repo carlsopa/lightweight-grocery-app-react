@@ -8,6 +8,7 @@ const List = () =>{
 	const {GetItemList} = useContext(DataContext);
 	const {Updater} = useContext(DataContext);
 	const {GetList} = useContext(DataContext);
+	const {Delete} = useContext(DataContext);
 
 	const [items, SetItems] = useState([]);
 
@@ -52,18 +53,20 @@ const List = () =>{
 		<div>
 		<p>To Find:</p>
 		<ul>
+		{//console.log(items)
+		}
 		{items.map((item,index)=>item.cart===false?
 			<Card key={item.listItemId} index={index}
 			value={item.listItemId} cart={item.cart} item={item.product} 
 			units={item.quantity} unitType={item.unit} 
-	 		cartChange={cartChange} itemChange={productChange} quantityChange={quantityChange} change={Updater}/>:null)}
+	 		cartChange={cartChange} itemChange={productChange} quantityChange={quantityChange} change={Updater} delete={Delete}/>:null)}
 		</ul>
 		<p>Found</p>
 		<ul>
 		{items.map((item,index)=>item.cart===true?<Card key={item.listItemId} index={index}
 			value={item.listItemId} cart={item.cart} item={item.product} 
 			units={item.quantity} unitType={item.unit} 
-	 		cartChange={cartChange} itemChange={productChange} quantityChange={quantityChange} change={Updater}/>:null)}
+	 		cartChange={cartChange} itemChange={productChange} quantityChange={quantityChange} change={Updater} delete={Delete}/>:null)}
 		</ul>
 		</div>
 	)

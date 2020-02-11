@@ -38,7 +38,6 @@ export const GroceryDataProvider =(props)=>{
 
 	const ChangeUser=(x)=>{
 		setUserId(x);
-		//WriteData();
 		setListId('');
 	}
 	const GetUserList=()=>{
@@ -47,13 +46,10 @@ export const GroceryDataProvider =(props)=>{
 	}
 	const ChangeList=(x)=>{
 		setListId(x);
-		//WriteData();
 	}
 	const GetItemList=()=>{
 		setUserItemList([])
 		console.log('groceryList');
-		//userGroceryList.forEach(ul=>ul.listId===listId?(console.log(ul),console.log(Object.values(ul.items))):console.log(null));
-		//userGroceryList.forEach(ul=>ul.listId===listId?(Object.values(ul.items).map(child=>setUserItemList(list=>[...list,child]))):console.log(null));
 		userGroceryList.forEach(ul=>{
 			if(ul.listId===listId){
 				if(ul.items!==undefined) {
@@ -64,50 +60,33 @@ export const GroceryDataProvider =(props)=>{
 				console.log(null)
 			}
 		})
-		// userGroceryList.forEach(ul=>ul.listId===parseInt(listId)?
-		// 	(ul.items!=undefined?(ul.items.forEach(product=>setUserItemList(list=>[...list,product]))):null):null);
 
 	}
 	
-	const Updater=(pr,qu,index)=>{
+	const Updater=(pr,qu,ut,index)=>{
+		console.log('update')
 		const itemIndex = userItemList.findIndex(u=>{
-			return u.listItemId === parseInt(index)})
+			return u.listItemId === index})
+		console.log(itemIndex);
+		console.log(pr)
 		const item = {...userItemList[itemIndex]}
+		console.log(item);
 		const items = [...userItemList]
 		item.product = pr;
 		item.quantity = qu;
+		item.unit = ut;
 		items[itemIndex] = item;
+		firebase.database().ref('groceryA/'+listId+'/items/'+index).update(item)
 		setUserItemList(items);
 	}
-	const WriteData= ()=>{
-		console.log('write');
-		let list='';
-		userGroceryList.forEach(ul=>ul.listId===parseInt(listId)?
-			(list=ul,
-			ul.items=userItemList):null);
-		let db = firebase.database().ref('groceryA/'+listId+'/items');
-		//console.log(db);
-		//console.log(userItemList);
-		//db.push(list);
-		// const groceryIndex = groceryList.findIndex(g=>{
-		// 	return g.listId === parseInt(listId);
-		// })
-		// let db = firebase.database().ref('grocery/'+groceryIndex);
-		// (groceryIndex!=-1)?db.set(list):console.log('not found')	
-	}
 	const GetList = () => {
-		console.log('get list')
-		console.log('userItemList');
 		setUserItemList([])
 		let db = firebase.database().ref('groceryA/'+listId+'/items');
 		db.once('value',snapshot=>{
 			snapshot.forEach(item=>{
-				console.log(snapshot)
-				console.log(item.val())
 				setUserItemList(list=>[...list,item.val()])
 			})
 		})
-		console.log('here')
 	}
 	const WriteItem = (p,c,q,t) => {
 		let db = firebase.database().ref('groceryA/'+listId+'/items/');
@@ -131,11 +110,19 @@ export const GroceryDataProvider =(props)=>{
 				console.log('enter a list')
 			:console.log('choose a person')
 	}
+	const Delete = (x) => {
+		const itemIndex = userItemList.findIndex(u=>{
+			return u.listItemId === x})
+		const items = [...userItemList]
+		items.splice(itemIndex,1);
+		firebase.database().ref('groceryA/'+listId+'/items/'+x).remove();
+		setUserItemList(items);
+	}
 
 	return( 
 		<DataContext.Provider value={{groceryList,userList,userGroceryList,userItemList,listId,userId,userTypeList,
 			setGroceryList,setUserList,setListId,setUserId,setUserTypeList,
-			ChangeUser,GetUserList,ChangeList,GetItemList,Updater,WriteData,WriteItem,WriteList,GetList}}>
+			ChangeUser,GetUserList,ChangeList,GetItemList,Updater,WriteItem,WriteList,GetList,Delete}}>
 			{props.children}
 		</DataContext.Provider>
 	)
