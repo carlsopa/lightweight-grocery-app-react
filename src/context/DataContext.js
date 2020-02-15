@@ -12,6 +12,7 @@ export const GroceryDataProvider =(props)=>{
 	const [userTypeList, setUserTypeList] = useState([]);
 	const [listId, setListId] = useState('');
 	const [userId, setUserId] = useState('');
+	const [DataLoad, setDataLoad] = useState(false);
 	//const [a, setA] = useState([]);
 
 	//const [lId, setLId] = useState(0);
@@ -42,7 +43,7 @@ export const GroceryDataProvider =(props)=>{
 	}
 	const GetUserList=()=>{
 		setUserGroceryList([]);
-				groceryList.forEach(gl=>parseInt(gl.userId)===parseInt(userId)?setUserGroceryList(list=>[...list,gl]):(null))	 	 
+		groceryList.forEach(gl=>parseInt(gl.userId)===parseInt(userId)?setUserGroceryList(list=>[...list,gl]):(null))	 	 
 	}
 	const ChangeList=(x)=>{
 		setListId(x);
@@ -61,18 +62,6 @@ export const GroceryDataProvider =(props)=>{
 		})
 	}
 	
-	const Updater=(pr,qu,ut,index)=>{
-		const itemIndex = userItemList.findIndex(u=>{
-			return u.listItemId === index})
-		const item = {...userItemList[itemIndex]}
-		const items = [...userItemList]
-		item.product = pr;
-		item.quantity = qu;
-		item.unit = ut;
-		items[itemIndex] = item;
-		firebase.database().ref('groceryA/'+listId+'/items/'+index).update(item)
-		setUserItemList(items);
-	}
 	const GetList = () => {
 		setUserItemList([])
 		let db = firebase.database().ref('groceryA/'+listId+'/items');
@@ -108,11 +97,26 @@ export const GroceryDataProvider =(props)=>{
 		firebase.database().ref('groceryA/'+listId+'/items/'+x).remove();
 		setUserItemList(items);
 	}
+	const Updater=(pr,qu,ut,index)=>{
+		const itemIndex = userItemList.findIndex(u=>{
+			return u.listItemId === index})
+		const item = {...userItemList[itemIndex]}
+		const items = [...userItemList]
+		item.product = pr;
+		item.quantity = qu;
+		item.unit = ut;
+		items[itemIndex] = item;
+		firebase.database().ref('groceryA/'+listId+'/items/'+index).update(item)
+		setUserItemList(items);
+	}
+	const UpdateCart=(item,index)=>{
+		firebase.database().ref('groceryA/'+listId+'/items/'+index).update(item)
+	}
 
 	return( 
-		<DataContext.Provider value={{groceryList,userList,userGroceryList,userItemList,listId,userId,userTypeList,
+		<DataContext.Provider value={{groceryList,userList,userGroceryList,userItemList,listId,userId,userTypeList,DataLoad,
 			setGroceryList,setUserList,setListId,setUserId,setUserTypeList,
-			ChangeUser,GetUserList,ChangeList,GetItemList,Updater,WriteItem,WriteList,GetList,Delete}}>
+			ChangeUser,GetUserList,ChangeList,GetItemList,Updater,UpdateCart,WriteItem,WriteList,GetList,Delete}}>
 			{props.children}
 		</DataContext.Provider>
 	)

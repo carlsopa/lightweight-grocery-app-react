@@ -46,28 +46,32 @@ const ListAdd = () => {
 	const [category, setCategory] = useState('');
 	const [type, setType] = useState('');
 
-
+	const reset=()=>{
+		setProduct('')
+		setQuantity('')
+		document.getElementById('CategoryList').selectedIndex='default'
+		document.getElementById('UnitList').selectedIndex='default'
+	}
 	let measureCategory = ['Each', 'Lb', 'Oz', 'Fl Oz']
 	let dataCategory = ['Other','Beverages', 'Bakery', 'Canned Goods', 'Dairy', 'Baking Goods', 'Frozen Foods', 'Meat', 'Produce', 'Snacks'];
-
 
 	return (
 		<div>
 			<div>
 				<input id="list" type="text" value={item} onChange={(e)=>setItem(e.target.value)}/>
-				<button type="button" onClick={(e)=>{WriteList(item)}}>New List</button>
+				<button type="button" onClick={(e)=>{WriteList(item); setItem('')}}>New List</button>
 			</div>
 			<div>
 				<input type="text" value={product} onChange={(e)=>setProduct(e.target.value)}/>
-				<select defaultValue={'default'} onChange={(e)=>{setCategory(e.target.value)}}>
+				<select id='CategoryList' defaultValue={'default'} onChange={(e)=>{setCategory(e.target.value)}}>
 				<option value='default' disabled >Select a category</option>
 				{userTypeList.map(ul=>ul.id===parseInt(userId)?(ul.categories.map((uc,index)=><option key={index} value={uc}>{uc}</option>)):null)}</select>
 				<br/>
 				<input type="number" value={quantity} onChange={(e)=>setQuantity(e.target.value)}/>
-				<select defaultValue={'default'} onChange={(e)=>{setType(e.target.value)}}>
+				<select id='UnitList' defaultValue={'default'} onChange={(e)=>{setType(e.target.value)}}>
 				<option value='default' disabled >Select a unit</option>
 				{measureCategory.map((mc,index)=><option key={index} value={mc}>{mc}</option>)}</select>
-				<button type="button" onClick={(e)=>{WriteItem(product,category,quantity,type)}}>New Item</button>
+				<button type="button" onClick={(e)=>{WriteItem(product,category,quantity,type);reset()}}>New Item</button>
 			</div>
 		</div>
 	)

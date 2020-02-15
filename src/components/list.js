@@ -1,14 +1,17 @@
 import React, {useContext,useEffect,useState} from 'react';
+//import { PDFDownloadLink, PDFViewer, Document, Page, Text } from '@react-pdf/renderer'
+//import MyDocument from './pdf';
+
 import {DataContext} from 'context/DataContext'
 import Card from './ItemCard';
 
 const List = () =>{
 	const {listId} = useContext(DataContext);
 	const {userItemList} = useContext(DataContext);
-	const {GetItemList} = useContext(DataContext);
 	const {Updater} = useContext(DataContext);
 	const {GetList} = useContext(DataContext);
 	const {Delete} = useContext(DataContext);
+	const {UpdateCart} = useContext(DataContext);
 
 	const [items, SetItems] = useState([]);
 
@@ -42,19 +45,16 @@ const List = () =>{
 	const cartChange  = (itemId) => {
 		SetItems(items.map(item=>{
 			if(item.listItemId===itemId){
+				UpdateCart({...item,cart:!item.cart},item.listItemId)
 				return{...item,cart:!item.cart}
 			}
-			return item;
-		}
+			return item;}
 		))
 	}
-	//.log(items);
 	return(
 		<div>
 		<p>To Find:</p>
 		<ul>
-		{//console.log(items)
-		}
 		{items.map((item,index)=>item.cart===false?
 			<Card key={item.listItemId} index={index}
 			value={item.listItemId} cart={item.cart} item={item.product} 
@@ -68,6 +68,7 @@ const List = () =>{
 			units={item.quantity} unitType={item.unit} 
 	 		cartChange={cartChange} itemChange={productChange} quantityChange={quantityChange} change={Updater} delete={Delete}/>:null)}
 		</ul>
+
 		</div>
 	)
 }

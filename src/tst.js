@@ -6,11 +6,12 @@ import {GroceryDataProvider} from './context/DataContext'
 function App() {
 	return(
 		<div>
-		<h1>React Testing App</h1>
-		<GroceryDataProvider>
-		<Header/>
-		<List/>
-		</GroceryDataProvider>
+			<h1>React Testing App</h1>
+			<GroceryDataProvider>
+				<Header/>
+				<List/>
+			
+			</GroceryDataProvider>
 		</div>)
 }
 export default App;
